@@ -5,6 +5,7 @@ go 1.26.4
 require (
 	github.com/99designs/gqlgen v0.17.94
 	github.com/google/uuid v1.6.0
+	github.com/mattn/go-sqlite3 v1.14.49
 	github.com/vektah/gqlparser/v2 v2.5.36
 )
 
@@ -14,7 +15,6 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
-	github.com/mattn/go-sqlite3 v1.14.48 // indirect
 	github.com/sosodev/duration v1.4.0 // indirect
 	github.com/urfave/cli/v3 v3.10.1 // indirect
 	golang.org/x/mod v0.38.0 // indirect

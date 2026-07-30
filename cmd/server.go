@@ -8,8 +8,9 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/carloscfgos1980/graphql-course/graph"
 	"github.com/carloscfgos1980/graphql-course/internal/database"
+	"github.com/carloscfgos1980/graphql-course/internal/graph/generated"
+	"github.com/carloscfgos1980/graphql-course/internal/graph/resolvers"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -31,9 +32,8 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
-		// Insert the CategoryDB dependency in the Resolver, to make
-		// the persistence possible
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{
+
 		CategoryDB: categoryDb,
 	}}))
 
