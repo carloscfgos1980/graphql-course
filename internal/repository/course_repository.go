@@ -90,3 +90,42 @@ func (c *CourseRepository) GetCoursesByCategoryID(categoryId string) ([]*model.C
 	}
 	return courses, nil
 }
+
+func (c *CourseRepository) GetAllCourses() ([]*model.Course, error) {
+	rows, err := c.DB.Query(
+		`SELECT c.id, c.title, c.description, c.created_at, c.updated_at,
+		        cat.id, cat.name, cat.description, cat.created_at, cat.updated_at
+		 FROM courses c
+		 JOIN categories cat ON cat.id = c.category_id`,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var courses []*model.Course
+	for rows.Next() {
+		var course model.Course
+		course.Category = &model.Category{}
+		err := rows.Scan(
+			&course.ID,
+			&course.Title,
+			&course.Description,
+			&course.CreatedAt,
+			&course.UpdatedAt,
+			&course.Category.ID,
+			&course.Category.Name,
+			&course.Category.Description,
+			&course.Category.CreatedAt,
+			&course.Category.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+		courses = append(courses, &course)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+	return courses, nil
+}

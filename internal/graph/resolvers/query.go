@@ -34,3 +34,12 @@ func (r *queryResolver) Category(ctx context.Context, id string) (*model.Categor
 	}
 	return category, nil
 }
+
+// Courses is the resolver for the courses field.
+func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
+	courses, err := r.CourseDB.GetAllCourses()
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve courses: %w", err)
+	}
+	return courses, nil
+}
