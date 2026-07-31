@@ -27,3 +27,15 @@ func (r *mutationResolver) UpdateCategory(ctx context.Context, id string, name *
 	}
 	return category, nil
 }
+
+// DeleteCategory is the resolver for the deleteCategory field.
+func (r *mutationResolver) DeleteCategory(ctx context.Context, id string) (bool, error) {
+	deleted, err := r.CategoryDB.DeleteCategory(id)
+	if err != nil {
+		return false, fmt.Errorf("failed to delete category: %w", err)
+	}
+	if !deleted {
+		return false, fmt.Errorf("category not found")
+	}
+	return true, nil
+}

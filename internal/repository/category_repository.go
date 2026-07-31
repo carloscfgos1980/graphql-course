@@ -107,3 +107,19 @@ func (c *CategoryRepository) UpdateCategory(id string, name *string, description
 	// Retrieve the updated category
 	return c.GetCategoryByID(id)
 }
+
+func (c *CategoryRepository) DeleteCategory(id string) (bool, error) {
+	result, err := c.DB.Exec("DELETE FROM categories WHERE id = ?", id)
+	if err != nil {
+		return false, fmt.Errorf("failed to delete category: %w", err)
+	}
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return false, fmt.Errorf("failed to get rows affected: %w", err)
+	}
+	if rowsAffected == 0 {
+		return false, nil
+	}
+
+	return true, nil
+}
