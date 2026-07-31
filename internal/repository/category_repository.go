@@ -26,6 +26,7 @@ func (c *CategoryRepository) CreateCategory(name string, description string) (*m
 		return nil, err
 	}
 	var category model.Category
+	category.Courses = []*model.Course{}
 	err = c.DB.QueryRow("SELECT id, name, description, created_at, updated_at FROM categories WHERE id = $1", id).Scan(&category.ID, &category.Name, &category.Description, &category.CreatedAt, &category.UpdatedAt)
 	if err != nil {
 		return nil, err

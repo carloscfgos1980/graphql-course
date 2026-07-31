@@ -13,6 +13,13 @@ func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, erro
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve categories: %w", err)
 	}
+	for _, category := range categories {
+		courses, err := r.CourseDB.GetCoursesByCategoryID(category.ID)
+		if err != nil {
+			return nil, fmt.Errorf("failed to retrieve courses for category %s: %w", category.ID, err)
+		}
+		category.Courses = courses
+	}
 	return categories, nil
 }
 

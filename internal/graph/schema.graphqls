@@ -30,13 +30,17 @@ input NewCourse {
 type Query {
   categories: [Category!]!
   category(id: ID!): Category
+
   courses: [Course!]!
+  course(id: ID!): Course
 }
 
 type Mutation {
   createCategory(input: NewCategory!): Category!
   updateCategory(id: ID!, name: String, description: String): Category!
   deleteCategory(id: ID!): Boolean!
-  
+
   createCourse(input: NewCourse!): Course!
+  updateCourse(id: ID!, title: String, description: String, categoryId: ID): Course!
+  deleteCourse(id: ID!): Boolean!
 }
