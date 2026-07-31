@@ -18,11 +18,6 @@ func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCour
 	panic(fmt.Errorf("not implemented: CreateCourse - createCourse"))
 }
 
-// Categories is the resolver for the categories field.
-func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
-	panic(fmt.Errorf("not implemented: Categories - categories"))
-}
-
 // Courses is the resolver for the courses field.
 func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
 	panic(fmt.Errorf("not implemented: Courses - courses"))

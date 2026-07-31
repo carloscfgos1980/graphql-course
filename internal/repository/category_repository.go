@@ -35,24 +35,24 @@ func (c *CategoryRepository) CreateCategory(name string, description string) (*m
 	return &category, nil
 }
 
-// func (c *CategoryRepository) FindAll() ([]CategoryRepository, error) {
-// 	rows, err := c.db.Query("SELECT id, name, description FROM categories")
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer rows.Close()
+func (c *CategoryRepository) GetCategories() ([]*model.Category, error) {
+	rows, err := c.DB.Query("SELECT id, name, description, created_at, updated_at FROM categories")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-// 	var categories []CategoryRepository
-// 	for rows.Next() {
-// 		var category CategoryRepository
-// 		err := rows.Scan(&category.ID, &category.Name, &category.Description)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		categories = append(categories, category)
-// 	}
-// 	if err := rows.Err(); err != nil {
-// 		return nil, err
-// 	}
-// 	return categories, nil
-// }
+	var categories []*model.Category
+	for rows.Next() {
+		var category model.Category
+		err := rows.Scan(&category.ID, &category.Name, &category.Description, &category.CreatedAt, &category.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+		categories = append(categories, &category)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+	return categories, nil
+}
