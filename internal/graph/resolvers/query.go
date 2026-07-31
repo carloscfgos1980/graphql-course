@@ -43,3 +43,14 @@ func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
 	}
 	return courses, nil
 }
+
+func (r *queryResolver) Course(ctx context.Context, id string) (*model.Course, error) {
+	course, err := r.CourseDB.GetCourseByID(id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve course: %w", err)
+	}
+	if course == nil {
+		return nil, fmt.Errorf("course not found")
+	}
+	return course, nil
+}

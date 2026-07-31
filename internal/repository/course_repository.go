@@ -129,3 +129,34 @@ func (c *CourseRepository) GetAllCourses() ([]*model.Course, error) {
 	}
 	return courses, nil
 }
+
+func (c *CourseRepository) GetCourseByID(id string) (*model.Course, error) {
+	var course model.Course
+	course.Category = &model.Category{}
+	err := c.DB.QueryRow(
+		`SELECT c.id, c.title, c.description, c.created_at, c.updated_at,
+		        cat.id, cat.name, cat.description, cat.created_at, cat.updated_at
+		 FROM courses c
+		 JOIN categories cat ON cat.id = c.category_id
+		 WHERE c.id = $1`,
+		id,
+	).Scan(
+		&course.ID,
+		&course.Title,
+		&course.Description,
+		&course.CreatedAt,
+		&course.UpdatedAt,
+		&course.Category.ID,
+		&course.Category.Name,
+		&course.Category.Description,
+		&course.Category.CreatedAt,
+		&course.Category.UpdatedAt,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil // No course found with the given ID
+		}
+		return nil, err
+	}
+	return &course, nil
+}
