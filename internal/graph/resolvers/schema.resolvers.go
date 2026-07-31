@@ -13,11 +13,6 @@ import (
 	"github.com/carloscfgos1980/graphql-course/internal/graph/model"
 )
 
-// CreateCategory is the resolver for the createCategory field.
-func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCategory) (*model.Category, error) {
-	panic(fmt.Errorf("not implemented: CreateCategory - createCategory"))
-}
-
 // CreateCourse is the resolver for the createCourse field.
 func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCourse) (*model.Course, error) {
 	panic(fmt.Errorf("not implemented: CreateCourse - createCourse"))

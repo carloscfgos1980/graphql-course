@@ -1,6 +1,6 @@
 package resolvers
 
-import "github.com/carloscfgos1980/graphql-course/internal/database"
+import "github.com/carloscfgos1980/graphql-course/internal/repository"
 
 // This file will not be regenerated automatically.
 //
@@ -8,5 +8,5 @@ import "github.com/carloscfgos1980/graphql-course/internal/database"
 // here.
 
 type Resolver struct {
-	CategoryDB *database.Category
+	CategoryDB *repository.CategoryRepository
 }

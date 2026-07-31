@@ -38,16 +38,20 @@ type DirectiveRoot struct {
 type ComplexityRoot struct {
 	Category struct {
 		Courses     func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Name        func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	Course struct {
 		Category    func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Name        func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -98,6 +102,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.ComplexityRoot.Category.Courses(childComplexity), true
+	case "Category.createdAt":
+		if e.ComplexityRoot.Category.CreatedAt == nil {
+			break
+		}
+
+		return e.ComplexityRoot.Category.CreatedAt(childComplexity), true
 	case "Category.description":
 		if e.ComplexityRoot.Category.Description == nil {
 			break
@@ -116,6 +126,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.ComplexityRoot.Category.Name(childComplexity), true
+	case "Category.updatedAt":
+		if e.ComplexityRoot.Category.UpdatedAt == nil {
+			break
+		}
+
+		return e.ComplexityRoot.Category.UpdatedAt(childComplexity), true
 
 	case "Course.category":
 		if e.ComplexityRoot.Course.Category == nil {
@@ -123,6 +139,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.ComplexityRoot.Course.Category(childComplexity), true
+	case "Course.createdAt":
+		if e.ComplexityRoot.Course.CreatedAt == nil {
+			break
+		}
+
+		return e.ComplexityRoot.Course.CreatedAt(childComplexity), true
 	case "Course.description":
 		if e.ComplexityRoot.Course.Description == nil {
 			break
@@ -141,6 +163,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.ComplexityRoot.Course.Name(childComplexity), true
+	case "Course.updatedAt":
+		if e.ComplexityRoot.Course.UpdatedAt == nil {
+			break
+		}
+
+		return e.ComplexityRoot.Course.UpdatedAt(childComplexity), true
 
 	case "Mutation.createCategory":
 		if e.ComplexityRoot.Mutation.CreateCategory == nil {
@@ -267,13 +295,17 @@ var sources = []*ast.Source{
   id: ID!
   name: String!
   description: String
+  createdAt: String!
+  updatedAt: String!
   courses: [Course!]!
 }
 
 type Course {
   id: ID!
-  name : String!
+  name: String!
   description: String
+  createdAt: String!
+  updatedAt: String!
   category: Category!
 }
 
@@ -312,6 +344,10 @@ func (ec *executionContext) childFields_Category(ctx context.Context, field grap
 		return ec.fieldContext_Category_name(ctx, field)
 	case "description":
 		return ec.fieldContext_Category_description(ctx, field)
+	case "createdAt":
+		return ec.fieldContext_Category_createdAt(ctx, field)
+	case "updatedAt":
+		return ec.fieldContext_Category_updatedAt(ctx, field)
 	case "courses":
 		return ec.fieldContext_Category_courses(ctx, field)
 	}
@@ -326,6 +362,10 @@ func (ec *executionContext) childFields_Course(ctx context.Context, field graphq
 		return ec.fieldContext_Course_name(ctx, field)
 	case "description":
 		return ec.fieldContext_Course_description(ctx, field)
+	case "createdAt":
+		return ec.fieldContext_Course_createdAt(ctx, field)
+	case "updatedAt":
+		return ec.fieldContext_Course_updatedAt(ctx, field)
 	case "category":
 		return ec.fieldContext_Course_category(ctx, field)
 	}
@@ -619,6 +659,52 @@ func (ec *executionContext) fieldContext_Category_description(_ context.Context,
 	return graphql.NewScalarFieldContext("Category", field, false, false, errors.New("field of type String does not have child fields"))
 }
 
+func (ec *executionContext) _Category_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Category) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Category_createdAt(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.CreatedAt, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
+			return ec.marshalNString2string(ctx, selections, v)
+		},
+		true,
+		true,
+	)
+}
+func (ec *executionContext) fieldContext_Category_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("Category", field, false, false, errors.New("field of type String does not have child fields"))
+}
+
+func (ec *executionContext) _Category_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Category) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Category_updatedAt(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.UpdatedAt, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
+			return ec.marshalNString2string(ctx, selections, v)
+		},
+		true,
+		true,
+	)
+}
+func (ec *executionContext) fieldContext_Category_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("Category", field, false, false, errors.New("field of type String does not have child fields"))
+}
+
 func (ec *executionContext) _Category_courses(ctx context.Context, field graphql.CollectedField, obj *model.Category) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
@@ -717,6 +803,52 @@ func (ec *executionContext) _Course_description(ctx context.Context, field graph
 	)
 }
 func (ec *executionContext) fieldContext_Course_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("Course", field, false, false, errors.New("field of type String does not have child fields"))
+}
+
+func (ec *executionContext) _Course_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Course) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Course_createdAt(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.CreatedAt, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
+			return ec.marshalNString2string(ctx, selections, v)
+		},
+		true,
+		true,
+	)
+}
+func (ec *executionContext) fieldContext_Course_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	return graphql.NewScalarFieldContext("Course", field, false, false, errors.New("field of type String does not have child fields"))
+}
+
+func (ec *executionContext) _Course_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Course) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return ec.fieldContext_Course_updatedAt(ctx, field)
+		},
+		func(ctx context.Context) (any, error) {
+			return obj.UpdatedAt, nil
+		},
+		nil,
+		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
+			return ec.marshalNString2string(ctx, selections, v)
+		},
+		true,
+		true,
+	)
+}
+func (ec *executionContext) fieldContext_Course_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	return graphql.NewScalarFieldContext("Course", field, false, false, errors.New("field of type String does not have child fields"))
 }
 
@@ -2155,6 +2287,16 @@ func (ec *executionContext) _Category(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == graphql.RequiredNull {
 				out.Invalids++
 			}
+		case "createdAt":
+			out.Values[i] = ec._Category_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._Category_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "courses":
 			out.Values[i] = ec._Category_courses(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -2206,6 +2348,16 @@ func (ec *executionContext) _Course(ctx context.Context, sel ast.SelectionSet, o
 		case "description":
 			out.Values[i] = ec._Course_description(ctx, field, obj)
 			if out.Values[i] == graphql.RequiredNull {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._Course_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._Course_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
 		case "category":
