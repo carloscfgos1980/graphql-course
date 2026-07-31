@@ -203,3 +203,18 @@ func (c *CourseRepository) UpdateCourse(id string, title *string, description *s
 	// Retrieve the updated course
 	return c.GetCourseByID(id)
 }
+
+func (c *CourseRepository) DeleteCourse(id string) (bool, error) {
+	result, err := c.DB.Exec("DELETE FROM courses WHERE id = $1", id)
+	if err != nil {
+		return false, fmt.Errorf("failed to delete course: %w", err)
+	}
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return false, fmt.Errorf("failed to retrieve rows affected: %w", err)
+	}
+	if rowsAffected == 0 {
+		return false, nil // No course found with the given ID
+	}
+	return true, nil
+}

@@ -70,3 +70,14 @@ func (r *mutationResolver) UpdateCourse(ctx context.Context, id string, title *s
 	}
 	return course, nil
 }
+
+func (r *mutationResolver) DeleteCourse(ctx context.Context, id string) (bool, error) {
+	deleted, err := r.CourseDB.DeleteCourse(id)
+	if err != nil {
+		return false, fmt.Errorf("failed to delete course: %w", err)
+	}
+	if !deleted {
+		return false, fmt.Errorf("course not found")
+	}
+	return true, nil
+}
