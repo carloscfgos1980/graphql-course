@@ -15,3 +15,15 @@ func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, erro
 	}
 	return categories, nil
 }
+
+// Category is the resolver for the category field.
+func (r *queryResolver) Category(ctx context.Context, id string) (*model.Category, error) {
+	category, err := r.CategoryDB.GetCategoryByID(id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve category: %w", err)
+	}
+	if category == nil {
+		return nil, fmt.Errorf("category not found")
+	}
+	return category, nil
+}

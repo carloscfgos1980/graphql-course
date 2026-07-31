@@ -56,3 +56,15 @@ func (c *CategoryRepository) GetCategories() ([]*model.Category, error) {
 	}
 	return categories, nil
 }
+
+func (c *CategoryRepository) GetCategoryByID(id string) (*model.Category, error) {
+	var category model.Category
+	err := c.DB.QueryRow("SELECT id, name, description, created_at, updated_at FROM categories WHERE id = $1", id).Scan(&category.ID, &category.Name, &category.Description, &category.CreatedAt, &category.UpdatedAt)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil // No category found with the given ID
+		}
+		return nil, fmt.Errorf("failed to retrieve category by ID: %w", err)
+	}
+	return &category, nil
+}
