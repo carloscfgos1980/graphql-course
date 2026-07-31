@@ -10,13 +10,7 @@ import (
 	"fmt"
 
 	"github.com/carloscfgos1980/graphql-course/internal/graph/generated"
-	"github.com/carloscfgos1980/graphql-course/internal/graph/model"
 )
-
-// UpdateCourse is the resolver for the updateCourse field.
-func (r *mutationResolver) UpdateCourse(ctx context.Context, id string, title *string, description *string, categoryID *string) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented: UpdateCourse - updateCourse"))
-}
 
 // DeleteCourse is the resolver for the deleteCourse field.
 func (r *mutationResolver) DeleteCourse(ctx context.Context, id string) (bool, error) {

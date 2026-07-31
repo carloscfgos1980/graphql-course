@@ -2,6 +2,8 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/carloscfgos1980/graphql-course/internal/graph/model"
@@ -159,4 +161,45 @@ func (c *CourseRepository) GetCourseByID(id string) (*model.Course, error) {
 		return nil, err
 	}
 	return &course, nil
+}
+
+func (c *CourseRepository) UpdateCourse(id string, title *string, description *string, categoryID *string) (*model.Course, error) {
+	// SQL Fragment
+	var setClauses []string
+	// args is a slice to hold the values for the SQL query
+	var args []interface{}
+	// Validate and prepare the fields to update
+	if title != nil {
+		setClauses = append(setClauses, "title = ?")
+		args = append(args, *title)
+	}
+	// Validate and prepare the fields to update
+	if description != nil {
+		setClauses = append(setClauses, "description = ?")
+		args = append(args, *description)
+	}
+	if categoryID != nil {
+		setClauses = append(setClauses, "category_id = ?")
+		args = append(args, *categoryID)
+	}
+	// If no fields are provided to update, return an error
+	if len(setClauses) == 0 {
+		return nil, fmt.Errorf("no fields provided to update")
+	}
+	// Add the updated_at timestamp
+	now := time.Now()
+	setClauses = append(setClauses, "updated_at = ?")
+	args = append(args, now)
+	// setClause is a string that joins the setClauses with commas, forming the SET part of the SQL query
+	setClause := strings.Join(setClauses, ", ")
+	// query is the final SQL query string that will be executed to update the habit
+	query := fmt.Sprintf("UPDATE courses SET %s WHERE id = ?", setClause)
+	args = append(args, id)
+	// Execute the update query
+	_, err := c.DB.Exec(query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update course: %w", err)
+	}
+	// Retrieve the updated course
+	return c.GetCourseByID(id)
 }

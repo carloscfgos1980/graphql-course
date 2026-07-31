@@ -77,7 +77,6 @@ func (c *CategoryRepository) UpdateCategory(id string, name *string, description
 	// args is a slice to hold the values for the SQL query
 	var args []interface{}
 	// Validate and prepare the fields to update
-	// Validate and prepare the fields to update
 	if name != nil {
 		setClauses = append(setClauses, "name = ?")
 		args = append(args, *name)

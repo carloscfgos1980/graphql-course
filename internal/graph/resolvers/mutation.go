@@ -58,3 +58,15 @@ func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCour
 	}
 	return course, nil
 }
+
+// UpdateCourse is the resolver for the updateCourse field.
+func (r *mutationResolver) UpdateCourse(ctx context.Context, id string, title *string, description *string, categoryID *string) (*model.Course, error) {
+	course, err := r.CourseDB.UpdateCourse(id, title, description, categoryID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update course: %w", err)
+	}
+	if course == nil {
+		return nil, fmt.Errorf("course not found")
+	}
+	return course, nil
+}

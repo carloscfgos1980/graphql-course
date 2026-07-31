@@ -43,7 +43,7 @@ func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
 	}
 	return courses, nil
 }
-
+// Course is the resolver for the course field.
 func (r *queryResolver) Course(ctx context.Context, id string) (*model.Course, error) {
 	course, err := r.CourseDB.GetCourseByID(id)
 	if err != nil {
