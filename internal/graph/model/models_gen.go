@@ -13,7 +13,7 @@ type Category struct {
 
 type Course struct {
 	ID          string    `json:"id"`
-	Name        string    `json:"name"`
+	Title       string    `json:"title"`
 	Description *string   `json:"description,omitempty"`
 	CreatedAt   string    `json:"createdAt"`
 	UpdatedAt   string    `json:"updatedAt"`
@@ -29,7 +29,7 @@ type NewCategory struct {
 }
 
 type NewCourse struct {
-	Name        string  `json:"name"`
+	Title       string  `json:"title"`
 	Description *string `json:"description,omitempty"`
 	CategoryID  string  `json:"categoryId"`
 }

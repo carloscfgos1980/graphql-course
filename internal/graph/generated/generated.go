@@ -50,7 +50,7 @@ type ComplexityRoot struct {
 		CreatedAt   func(childComplexity int) int
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
-		Name        func(childComplexity int) int
+		Title       func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
 	}
 
@@ -163,12 +163,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.ComplexityRoot.Course.ID(childComplexity), true
-	case "Course.name":
-		if e.ComplexityRoot.Course.Name == nil {
+	case "Course.title":
+		if e.ComplexityRoot.Course.Title == nil {
 			break
 		}
 
-		return e.ComplexityRoot.Course.Name(childComplexity), true
+		return e.ComplexityRoot.Course.Title(childComplexity), true
 	case "Course.updatedAt":
 		if e.ComplexityRoot.Course.UpdatedAt == nil {
 			break
@@ -341,7 +341,7 @@ var sources = []*ast.Source{
 
 type Course {
   id: ID!
-  name: String!
+  title: String!
   description: String
   createdAt: String!
   updatedAt: String!
@@ -354,7 +354,7 @@ input NewCategory {
 }
 
 input NewCourse {
-  name: String!
+  title: String!
   description: String
   categoryId: ID!
 }
@@ -369,6 +369,7 @@ type Mutation {
   createCategory(input: NewCategory!): Category!
   updateCategory(id: ID!, name: String, description: String): Category!
   deleteCategory(id: ID!): Boolean!
+  
   createCourse(input: NewCourse!): Course!
 }`, BuiltIn: false},
 }
@@ -400,8 +401,8 @@ func (ec *executionContext) childFields_Course(ctx context.Context, field graphq
 	switch field.Name {
 	case "id":
 		return ec.fieldContext_Course_id(ctx, field)
-	case "name":
-		return ec.fieldContext_Course_name(ctx, field)
+	case "title":
+		return ec.fieldContext_Course_title(ctx, field)
 	case "description":
 		return ec.fieldContext_Course_description(ctx, field)
 	case "createdAt":
@@ -860,16 +861,16 @@ func (ec *executionContext) fieldContext_Course_id(_ context.Context, field grap
 	return graphql.NewScalarFieldContext("Course", field, false, false, errors.New("field of type ID does not have child fields"))
 }
 
-func (ec *executionContext) _Course_name(ctx context.Context, field graphql.CollectedField, obj *model.Course) (ret graphql.Marshaler) {
+func (ec *executionContext) _Course_title(ctx context.Context, field graphql.CollectedField, obj *model.Course) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
 		ec.OperationContext,
 		field,
 		func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return ec.fieldContext_Course_name(ctx, field)
+			return ec.fieldContext_Course_title(ctx, field)
 		},
 		func(ctx context.Context) (any, error) {
-			return obj.Name, nil
+			return obj.Title, nil
 		},
 		nil,
 		func(ctx context.Context, selections ast.SelectionSet, v string) graphql.Marshaler {
@@ -879,7 +880,7 @@ func (ec *executionContext) _Course_name(ctx context.Context, field graphql.Coll
 		true,
 	)
 }
-func (ec *executionContext) fieldContext_Course_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Course_title(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	return graphql.NewScalarFieldContext("Course", field, false, false, errors.New("field of type String does not have child fields"))
 }
 
@@ -2451,20 +2452,20 @@ func (ec *executionContext) unmarshalInputNewCourse(ctx context.Context, obj any
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "categoryId"}
+	fieldsInOrder := [...]string{"title", "description", "categoryId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "name":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+		case "title":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
 			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Name = data
+			it.Title = data
 		case "description":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -2572,8 +2573,8 @@ func (ec *executionContext) _Course(ctx context.Context, sel ast.SelectionSet, o
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "name":
-			out.Values[i] = ec._Course_name(ctx, field, obj)
+		case "title":
+			out.Values[i] = ec._Course_title(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

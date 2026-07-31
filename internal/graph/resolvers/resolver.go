@@ -9,4 +9,5 @@ import "github.com/carloscfgos1980/graphql-course/internal/repository"
 
 type Resolver struct {
 	CategoryDB *repository.CategoryRepository
+	CourseDB   *repository.CourseRepository
 }

@@ -13,11 +13,6 @@ import (
 	"github.com/carloscfgos1980/graphql-course/internal/graph/model"
 )
 
-// CreateCourse is the resolver for the createCourse field.
-func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCourse) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented: CreateCourse - createCourse"))
-}
-
 // Courses is the resolver for the courses field.
 func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
 	panic(fmt.Errorf("not implemented: Courses - courses"))

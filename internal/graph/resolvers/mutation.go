@@ -9,7 +9,12 @@ import (
 
 // CreateCategory is the resolver for the createCategory field.
 func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCategory) (*model.Category, error) {
-	category, err := r.CategoryDB.CreateCategory(input.Name, *input.Description)
+	var description string
+	if input.Description != nil {
+		description = *input.Description
+	}
+
+	category, err := r.CategoryDB.CreateCategory(input.Name, description)
 	if err != nil {
 		return nil, err
 	}
@@ -38,4 +43,18 @@ func (r *mutationResolver) DeleteCategory(ctx context.Context, id string) (bool,
 		return false, fmt.Errorf("category not found")
 	}
 	return true, nil
+}
+
+// CreateCourse is the resolver for the createCourse field.
+func (r *mutationResolver) CreateCourse(ctx context.Context, input model.NewCourse) (*model.Course, error) {
+	var description string
+	if input.Description != nil {
+		description = *input.Description
+	}
+
+	course, err := r.CourseDB.CreateCourse(input.Title, description, input.CategoryID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create course: %w", err)
+	}
+	return course, nil
 }

@@ -34,8 +34,10 @@ func main() {
 	log.Printf("Database initialized successfully: %s", dbPath)
 
 	categoryRepo := repository.NewCategoryRepository(db)
+	courseRepo := repository.NewCourseRepository(db)
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{
 		CategoryDB: categoryRepo,
+		CourseDB:   courseRepo,
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
