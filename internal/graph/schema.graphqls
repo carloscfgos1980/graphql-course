@@ -2,13 +2,17 @@ type Category {
   id: ID!
   name: String!
   description: String
+  createdAt: String!
+  updatedAt: String!
   courses: [Course!]!
 }
 
 type Course {
   id: ID!
-  name : String!
+  name: String!
   description: String
+  createdAt: String!
+  updatedAt: String!
   category: Category!
 }
 
