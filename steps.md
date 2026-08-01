@@ -99,3 +99,29 @@ UpdateCategory is the resolver for the updateCategory field.
 
 1. Respository
 2. DeleteCategory is the resolver for the deleteCategory field.
+
+## 9. Create course
+1. Respository
+DeleteCategory is the resolver for the deleteCategory field.
+- Generate a new UUID for the course and set the current time for created_at and updated_at
+- Execute the SQL query to insert the new course into the database
+- Retrieve the newly created course from the database to return it
+Note: This part is a bit complex beacuse it is a query joining table so the course will also have the category associateed to this newly created course
+- Return the newly created course
+
+2. Resolver
+type Resolver struct {
+	CourseDB   *repository.CourseRepository
+}
+
+
+3. Wire the database to the api in main.go file
+
+	courseRepo := repository.NewCourseRepository(db)
+	// Create a new GraphQL server with the generated schema and resolvers
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{
+		CourseDB:   courseRepo,
+	}}))
+
+4. Mutation
+CreateCourse is the resolver for the createCourse field.

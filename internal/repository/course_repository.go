@@ -18,13 +18,17 @@ func NewCourseRepository(db *sql.DB) *CourseRepository {
 	return &CourseRepository{DB: db}
 }
 
+// CreateCourse creates a new course in the database and returns the created course.
 func (c *CourseRepository) CreateCourse(title string, description string, categoryId string) (*model.Course, error) {
+	// Generate a new UUID for the course and set the current time for created_at and updated_at
 	now := time.Now()
 	id := uuid.New().String()
+	// Execute the SQL query to insert the new course into the database
 	_, err := c.DB.Exec("INSERT INTO courses (id, title, description, category_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6)", id, title, description, categoryId, now, now)
 	if err != nil {
 		return nil, err
 	}
+	// Retrieve the newly created course from the database to return it
 	var course model.Course
 	course.Category = &model.Category{}
 	err = c.DB.QueryRow(
@@ -49,6 +53,7 @@ func (c *CourseRepository) CreateCourse(title string, description string, catego
 	if err != nil {
 		return nil, err
 	}
+	// Return the newly created course
 	return &course, nil
 }
 
