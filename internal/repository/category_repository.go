@@ -18,6 +18,7 @@ func NewCategoryRepository(db *sql.DB) *CategoryRepository {
 	return &CategoryRepository{DB: db}
 }
 
+// CreateCategory creates a new category in the database and returns the created category.
 func (c *CategoryRepository) CreateCategory(name string, description string) (*model.Category, error) {
 	now := time.Now()
 	id := uuid.New().String()
@@ -29,14 +30,12 @@ func (c *CategoryRepository) CreateCategory(name string, description string) (*m
 	category.Courses = []*model.Course{}
 	err = c.DB.QueryRow("SELECT id, name, description, created_at, updated_at FROM categories WHERE id = $1", id).Scan(&category.ID, &category.Name, &category.Description, &category.CreatedAt, &category.UpdatedAt)
 	if err != nil {
-		return nil, err
-	}
-	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve created category: %w", err)
 	}
 	return &category, nil
 }
 
+// GetCategories retrieves all categories from the database.
 func (c *CategoryRepository) GetCategories() ([]*model.Category, error) {
 	rows, err := c.DB.Query("SELECT id, name, description, created_at, updated_at FROM categories")
 	if err != nil {
@@ -59,6 +58,7 @@ func (c *CategoryRepository) GetCategories() ([]*model.Category, error) {
 	return categories, nil
 }
 
+// GetCategoryByID retrieves a category by its ID from the database.
 func (c *CategoryRepository) GetCategoryByID(id string) (*model.Category, error) {
 	var category model.Category
 	err := c.DB.QueryRow("SELECT id, name, description, created_at, updated_at FROM categories WHERE id = $1", id).Scan(&category.ID, &category.Name, &category.Description, &category.CreatedAt, &category.UpdatedAt)

@@ -1,6 +1,6 @@
 # STEPS
 
-## Set up
+## 1. Set up
 
 ### start project
  go mod init github.com/carloscfgos1980/graphql-course
@@ -26,7 +26,10 @@ sqlite3 ./data/school.db "SELECT 1;"
 2. Adjust file gqlgen.yaml for the desired architecture
 3. create cmd directory and move server.go to this directory. Also rename server as main, otherwhise I can not user "air"
 
-## 2 migrations
+### Replace the default types, input, query and mutations for the one neeed for the project and the run the cli to generate a new schema adpated to this project
+
+
+## 2. migrations
 
 1. create the migrations to categories and courses tables in migrations directory
 2. run the cli to create or delete the tables
@@ -37,7 +40,7 @@ goose -dir ./migrations sqlite3 ./data/school.db status
 goose -dir ./migrations sqlite3 ./data/school.db down
 
 
-## main
+## 3. main
 - Load environment variables from the repo root when running from cmd/.
 - get the database path from environment variable or use default
 - Initialize the database
@@ -46,3 +49,40 @@ goose -dir ./migrations sqlite3 ./data/school.db down
 - Set up the HTTP handlers for the GraphQL playground and query endpoint
 - get the port from environment variable
 - Start the server and log any errors
+
+## 4. Create category
+
+1. Repository
+CreateCategory creates a new category in the database and returns the created category.
+2. resolver
+type Resolver struct {
+	CategoryDB *repository.CategoryRepository
+}
+3. main wire database to api
+	categoryRepo := repository.NewCategoryRepository(db)
+	// Create a new GraphQL server with the generated schema and resolvers
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{
+		CategoryDB: categoryRepo,
+	}}))
+4. resolver
+CreateCategory is the resolver for the createCategory field.
+
+## Get categories
+
+1. Respository
+GetCategories retrieves all categories from the database.
+2. Query
+Categories is the resolver for the categories field.
+- Retrieve all categories from the database
+- For each category, retrieve the associated courses and populate the Courses field (todo)
+- Return the list of categories with their associated courses
+
+## Get single category
+
+1. Respository
+GetCategoryByID retrieves a category by its ID from the database.
+2. Query
+GetCategoryByID retrieves a category by its ID from the database.
+- Retrieve a category by its ID from the database
+- If the category is not found, return an error
+- Return the category with its associated courses (if any)

@@ -9,10 +9,12 @@ import (
 
 // Categories is the resolver for the categories field.
 func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
+	// Retrieve all categories from the database
 	categories, err := r.CategoryDB.GetCategories()
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve categories: %w", err)
 	}
+	// For each category, retrieve the associated courses and populate the Courses field
 	for _, category := range categories {
 		courses, err := r.CourseDB.GetCoursesByCategoryID(category.ID)
 		if err != nil {
@@ -20,18 +22,22 @@ func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, erro
 		}
 		category.Courses = courses
 	}
+	// Return the list of categories with their associated courses
 	return categories, nil
 }
 
 // Category is the resolver for the category field.
 func (r *queryResolver) Category(ctx context.Context, id string) (*model.Category, error) {
+	// Retrieve a category by its ID from the database
 	category, err := r.CategoryDB.GetCategoryByID(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve category: %w", err)
 	}
+	// If the category is not found, return an error
 	if category == nil {
 		return nil, fmt.Errorf("category not found")
 	}
+	// Return the category with its associated courses (if any)
 	return category, nil
 }
 
@@ -43,6 +49,7 @@ func (r *queryResolver) Courses(ctx context.Context) ([]*model.Course, error) {
 	}
 	return courses, nil
 }
+
 // Course is the resolver for the course field.
 func (r *queryResolver) Course(ctx context.Context, id string) (*model.Course, error) {
 	course, err := r.CourseDB.GetCourseByID(id)
