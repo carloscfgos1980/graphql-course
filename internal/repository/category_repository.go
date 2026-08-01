@@ -71,6 +71,7 @@ func (c *CategoryRepository) GetCategoryByID(id string) (*model.Category, error)
 	return &category, nil
 }
 
+// UpdateCategory updates an existing category in the database and returns the updated category.
 func (c *CategoryRepository) UpdateCategory(id string, name *string, description *string) (*model.Category, error) {
 	// SQL Fragment
 	var setClauses []string
@@ -108,6 +109,7 @@ func (c *CategoryRepository) UpdateCategory(id string, name *string, description
 	return c.GetCategoryByID(id)
 }
 
+// DeleteCategory deletes a category from the database by its ID and returns a boolean indicating success.
 func (c *CategoryRepository) DeleteCategory(id string) (bool, error) {
 	result, err := c.DB.Exec("DELETE FROM categories WHERE id = ?", id)
 	if err != nil {

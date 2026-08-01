@@ -67,7 +67,7 @@ type Resolver struct {
 4. resolver
 CreateCategory is the resolver for the createCategory field.
 
-## Get categories
+## 5. Get categories
 
 1. Respository
 GetCategories retrieves all categories from the database.
@@ -77,7 +77,7 @@ Categories is the resolver for the categories field.
 - For each category, retrieve the associated courses and populate the Courses field (todo)
 - Return the list of categories with their associated courses
 
-## Get single category
+## 6. Get single category
 
 1. Respository
 GetCategoryByID retrieves a category by its ID from the database.
@@ -86,3 +86,16 @@ GetCategoryByID retrieves a category by its ID from the database.
 - Retrieve a category by its ID from the database
 - If the category is not found, return an error
 - Return the category with its associated courses (if any)
+
+## 7. Update cageory
+
+1. Reposistory
+UpdateCategory updates an existing category in the database and returns the updated category.
+Note: Here I use a strategy to update only the fields given by the client 
+2. Mutation
+UpdateCategory is the resolver for the updateCategory field.
+
+## 8. Delete category
+
+1. Respository
+2. DeleteCategory is the resolver for the deleteCategory field.
