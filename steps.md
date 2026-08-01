@@ -135,3 +135,11 @@ Categories is the resolver for the categories field.
 - For each category, retrieve the associated courses and populate the Courses field
 Category is the resolver for the category field.
 - Retrieve the courses associated with the category and populate the Courses field
+
+## 11. Get courses
+
+1. Respository
+GetAllCourses retrieves all courses from the database.
+Note: This a complex query becasue it's needed to join to table wo when fetching courses, it would shoe the data of the category associated to this course 
+2. Query
+Courses is the resolver for the courses field.

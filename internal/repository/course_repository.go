@@ -99,6 +99,7 @@ func (c *CourseRepository) GetCoursesByCategoryID(categoryId string) ([]*model.C
 	return courses, nil
 }
 
+// GetAllCourses retrieves all courses from the database.
 func (c *CourseRepository) GetAllCourses() ([]*model.Course, error) {
 	rows, err := c.DB.Query(
 		`SELECT c.id, c.title, c.description, c.created_at, c.updated_at,
