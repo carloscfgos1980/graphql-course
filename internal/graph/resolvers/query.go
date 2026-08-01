@@ -37,6 +37,12 @@ func (r *queryResolver) Category(ctx context.Context, id string) (*model.Categor
 	if category == nil {
 		return nil, fmt.Errorf("category not found")
 	}
+	courses, err := r.CourseDB.GetCoursesByCategoryID(category.ID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve courses for category %s: %w", category.ID, err)
+	}
+	// Populate the Courses field of the category with the associated courses
+	category.Courses = courses
 	// Return the category with its associated courses (if any)
 	return category, nil
 }

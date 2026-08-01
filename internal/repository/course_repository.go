@@ -57,6 +57,7 @@ func (c *CourseRepository) CreateCourse(title string, description string, catego
 	return &course, nil
 }
 
+// GetCoursesByCategoryID retrieves all courses associated with a specific category ID from the database.
 func (c *CourseRepository) GetCoursesByCategoryID(categoryId string) ([]*model.Course, error) {
 	rows, err := c.DB.Query(
 		`SELECT c.id, c.title, c.description, c.created_at, c.updated_at,

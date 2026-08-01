@@ -125,3 +125,13 @@ type Resolver struct {
 
 4. Mutation
 CreateCourse is the resolver for the createCourse field.
+
+## 10. Add feature to get slices of courses in order to populate the fect of categories and category
+
+1. Respository
+GetCoursesByCategoryID retrieves all courses associated with a specific category ID from the database.
+2. Query
+Categories is the resolver for the categories field.
+- For each category, retrieve the associated courses and populate the Courses field
+Category is the resolver for the category field.
+- Retrieve the courses associated with the category and populate the Courses field
