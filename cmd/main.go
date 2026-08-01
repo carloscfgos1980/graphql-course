@@ -30,16 +30,16 @@ func main() {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
 	defer db.Close()
-
 	log.Printf("Database initialized successfully: %s", dbPath)
-
+	// Initialize repositories and GraphQL server
 	categoryRepo := repository.NewCategoryRepository(db)
 	courseRepo := repository.NewCourseRepository(db)
+	// Create a new GraphQL server with the generated schema and resolvers
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{
 		CategoryDB: categoryRepo,
 		CourseDB:   courseRepo,
 	}}))
-
+	// Set up the HTTP handlers for the GraphQL playground and query endpoint
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
 
